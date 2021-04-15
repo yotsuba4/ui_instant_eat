@@ -1,159 +1,198 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:ui_instant_eat/model/category.dart';
 import 'package:ui_instant_eat/model/popular.dart';
 import 'package:ui_instant_eat/shared/color.dart';
 
-class HomePage extends StatelessWidget {
-  final images = [
-    'assets/images/grape.png',
-    'assets/images/pizza.png',
-    'assets/images/burger.png',
-  ];
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
 
-  final categoryNames = [
-    'Fruits',
-    'Pizza',
-    'Burger',
+class _HomePageState extends State<HomePage> {
+  final listCategories = [
+    Category('assets/images/grape.png', 'Fruits'),
+    Category('assets/images/pizza.png', 'Pizza'),
+    Category('assets/images/burger.png', 'Burger')
   ];
-
   final listPopularFood = [
     PopularFood('Buffalo Burgers', 300, 2.5, 4.8, 'assets/images/hambogo.png'),
     PopularFood(
         'Sicilian Pizza', 750, 3.0, 5.0, 'assets/images/pizzaseafood.png'),
   ];
+
+  double xOffset = 0;
+  double yOffset = 0;
+  double scaleFactor = 1;
+
+  bool isDrawerOpen = false;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColor.background,
-      appBar: AppBar(
-        elevation: 0,
-        title: Text(
-          'Instants Eats',
-          style: TextStyle(
-              fontWeight: FontWeight.bold, color: AppColor.title, fontSize: 20),
-        ),
-        backgroundColor: AppColor.background,
-        leading: ElevatedButton(
-          onPressed: () {},
-          child: Image.asset('assets/images/menu.png'),
-          style: ElevatedButton.styleFrom(
-              primary: AppColor.background, elevation: 0),
-        ),
-        actions: <Widget>[
-          Image.asset('assets/images/cart.png'),
-          Container(
-              padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
-              child: Image.asset('assets/images/avatar.png')),
-        ],
+    return AnimatedContainer(
+      transform: Matrix4.translationValues(xOffset, yOffset, 0)
+        ..scale(scaleFactor)
+        ..rotateY(isDrawerOpen ? -0.5 : 0),
+      duration: Duration(milliseconds: 250),
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(isDrawerOpen ? 40 : 0.0),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Container(
-                      padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                      child: Text(
-                        'What you would like \n to order?',
-                        style: TextStyle(
-                            color: AppColor.commonText,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(20),
-                    child: Material(
-                      elevation: 10,
-                      child: TextField(
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          border: InputBorder.none,
-                          prefixIcon: Icon(Icons.search),
-                          suffixIcon: Container(
-                              color: AppColor.primary,
-                              child: Image.asset('assets/images/adjust.png')),
+      child: Scaffold(
+        backgroundColor: AppColor.background,
+        appBar: AppBar(
+          elevation: 0,
+          title: Text(
+            'Instants Eats',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: AppColor.title,
+                fontSize: 20),
+          ),
+          backgroundColor: AppColor.background,
+          leading: isDrawerOpen
+              ? ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      xOffset = 0;
+                      yOffset = 0;
+                      scaleFactor = 1;
+                      isDrawerOpen = false;
+                    });
+                  },
+                  child: Image.asset('assets/images/menu.png'),
+                  style: ElevatedButton.styleFrom(
+                      primary: AppColor.background, elevation: 0),
+                )
+              : ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      xOffset = 230;
+                      yOffset = 100;
+                      scaleFactor = 0.8;
+                      isDrawerOpen = true;
+                    });
+                  },
+                  child: Image.asset('assets/images/menu.png'),
+                  style: ElevatedButton.styleFrom(
+                      primary: AppColor.background, elevation: 0),
+                ),
+          actions: <Widget>[
+            Image.asset('assets/images/cart.png'),
+            Container(
+                padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
+                child: Image.asset('assets/images/avatar.png')),
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                        child: Text(
+                          'What you would like \n to order?',
+                          style: TextStyle(
+                              color: AppColor.commonText,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Categories',
-                      style: TextStyle(
-                          color: AppColor.commonText,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      'See all',
-                      style: TextStyle(
-                          color: AppColor.title,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500),
+                    Container(
+                      padding: EdgeInsets.all(20),
+                      child: Material(
+                        elevation: 10,
+                        child: TextField(
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: InputBorder.none,
+                            prefixIcon: Icon(Icons.search),
+                            suffixIcon: Container(
+                                color: AppColor.primary,
+                                child: Image.asset('assets/images/adjust.png')),
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              Container(
-                height: 240,
-                child: ListView.builder(
-                    itemCount: images.length,
+                SizedBox(
+                  height: 8,
+                ),
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Categories',
+                        style: TextStyle(
+                            color: AppColor.commonText,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        'See all',
+                        style: TextStyle(
+                            color: AppColor.title,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Container(
+                  height: 240,
+                  child: ListView.builder(
+                      itemCount: listCategories.length,
+                      shrinkWrap: true,
+                      physics: ClampingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return Categories(
+                          label: listCategories[index].name,
+                          imgUrl: listCategories[index].image,
+                        );
+                      }),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Text(
+                  "Popular",
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: AppColor.commonText,
+                      fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                ListView.builder(
                     shrinkWrap: true,
                     physics: ClampingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
+                    itemCount: listPopularFood.length,
                     itemBuilder: (context, index) {
-                      return Categories(
-                        label: categoryNames[index],
-                        imgUrl: images[index],
+                      return PopularFoods(
+                        weight: listPopularFood[index].weight,
+                        imgUrl: listPopularFood[index].img,
+                        title: listPopularFood[index].name,
+                        price: listPopularFood[index].price,
+                        rating: listPopularFood[index].rate,
                       );
-                    }),
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              Text(
-                "Popular",
-                style: TextStyle(
-                    fontSize: 20,
-                    color: AppColor.commonText,
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              ListView.builder(
-                  shrinkWrap: true,
-                  physics: ClampingScrollPhysics(),
-                  itemCount: listPopularFood.length,
-                  itemBuilder: (context, index) {
-                    return PopularFoods(
-                      weight: listPopularFood[index].weight,
-                      imgUrl: listPopularFood[index].img,
-                      title: listPopularFood[index].name,
-                      price: listPopularFood[index].price,
-                      rating: listPopularFood[index].rate,
-                    );
-                  })
-            ],
+                    })
+              ],
+            ),
           ),
         ),
       ),
@@ -161,11 +200,16 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class Categories extends StatelessWidget {
+class Categories extends StatefulWidget {
   final String label;
   final String imgUrl;
   Categories({@required this.label, @required this.imgUrl});
 
+  @override
+  _CategoriesState createState() => _CategoriesState();
+}
+
+class _CategoriesState extends State<Categories> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -184,9 +228,9 @@ class Categories extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Image.asset(imgUrl),
+            Image.asset(widget.imgUrl),
             Text(
-              label,
+              widget.label,
               style: TextStyle(fontSize: 14, color: AppColor.commonText),
             ),
             ElevatedButton(
@@ -202,7 +246,7 @@ class Categories extends StatelessWidget {
   }
 }
 
-class PopularFoods extends StatelessWidget {
+class PopularFoods extends StatefulWidget {
   final String imgUrl;
   final String title;
   final double weight;
@@ -215,6 +259,11 @@ class PopularFoods extends StatelessWidget {
       @required this.title,
       @required this.weight});
 
+  @override
+  _PopularFoodsState createState() => _PopularFoodsState();
+}
+
+class _PopularFoodsState extends State<PopularFoods> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -243,7 +292,7 @@ class PopularFoods extends StatelessWidget {
                 ],
               ),
               Text(
-                title,
+                widget.title,
                 style: TextStyle(
                     color: AppColor.commonText,
                     fontSize: 20,
@@ -252,9 +301,9 @@ class PopularFoods extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Weight $weight'),
+                  Text('Weight ${widget.weight}'),
                   Text(
-                    '\$ $price',
+                    '\$ ${widget.price}',
                   )
                 ],
               ),
@@ -269,12 +318,12 @@ class PopularFoods extends StatelessWidget {
                     width: 15,
                   ),
                   Image.asset('assets/images/star.png'),
-                  Text('$rating'),
+                  Text('${widget.rating}'),
                 ],
               ),
             ],
           ),
-          Image.asset(imgUrl),
+          Image.asset(widget.imgUrl),
         ],
       ),
     );
