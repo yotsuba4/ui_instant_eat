@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ui_instant_eat/detail.dart';
 import 'package:ui_instant_eat/drawer.dart';
-import 'package:ui_instant_eat/home.dart';
+import 'package:ui_instant_eat/home/home.dart';
 import 'package:ui_instant_eat/splash.dart';
 
 void main() {
@@ -12,13 +13,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(primarySwatch: Colors.blue),
-        home: Stack(
-          children: [
-            DrawerScreen(),
-            HomePage(),
-          ],
-        ));
+      theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Roboto'),
+      home: Home(),
+    );
+  }
+}
+
+class Home extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          DrawerScreen(),
+          HomePage(),
+        ],
+      ),
+    );
   }
 }

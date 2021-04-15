@@ -24,30 +24,44 @@ class _DrawerScreenState extends State<DrawerScreen> {
         color: AppColor.primary,
         padding: EdgeInsets.only(top: 50, bottom: 70, left: 10),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              children: [
-                CircleAvatar(),
-                SizedBox(
-                  height: 10,
-                ),
-                Column(
-                  children: [
-                    Text(
-                      'Jessie Tyler',
-                      style: TextStyle(
-                          color: AppColor.commonText,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16),
+            Container(
+              padding: EdgeInsets.only(left: 25),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  /* CircleAvatar(
+                    backgroundImage:
+                        AssetImage('assets/images/avatar-icon.png'),
+                  ), */
+                  ClipRRect(
+                    child: Image.asset(
+                      'assets/images/avatar-icon.png',
+                      width: 80.0,
+                      height: 80.0,
+                      fit: BoxFit.fill,
                     ),
-                    Text('jessie tyler@gmail.com',
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Jessie Tyler',
                         style: TextStyle(
-                          color: AppColor.commonText,
-                          fontSize: 12,
-                        ))
-                  ],
-                )
-              ],
+                            color: AppColor.commonText,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16),
+                      ),
+                      Text('jessie tyler@gmail.com',
+                          style: TextStyle(
+                            color: AppColor.commonText,
+                            fontSize: 12,
+                          ))
+                    ],
+                  )
+                ],
+              ),
             ),
             Container(
               margin: EdgeInsets.only(top: 48),

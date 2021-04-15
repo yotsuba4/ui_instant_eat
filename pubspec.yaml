@@ -71,6 +71,7 @@ flutter:
   - assets/images/profile-icon.png
   - assets/images/setting-icon.png
   - assets/images/voucher-icon.png
+  - assets/images/avatar-icon.png
 
  
 
@@ -97,5 +98,13 @@ flutter:
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Bold.ttf          
+        - asset: assets/fonts/Roboto-Light.ttf
+        - asset: assets/fonts/Roboto-Medium.ttf         
+        - asset: assets/fonts/Roboto-Regular.ttf
+          
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
